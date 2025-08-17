@@ -92,6 +92,15 @@ def extract_max_temps(weather_list):
 # --- Main App Execution ---
 st.title("Past Weather Comparison App 🌦️")
 
+st.write("""
+This app lets you compare maximum temperatures for a selected location 
+over a 7-day period across different years, including the current year, 
+one year ago, ten years ago, and 1979. The app works by calling the
+OpenWeather, a weather data provider (their data begins in 1979).
+
+Use the inputs below to get started!
+""")
+
 lat, lon, place = get_place_input()
 start_date = get_date_input()
 
@@ -104,6 +113,17 @@ ten_years_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(ten_years)]
 eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
+
+# --- Globe Map ---
+fig_map = plt.figure(figsize=(8, 6))
+ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
+ax_map.set_global()
+ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
+ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
+ax_map.add_feature(cfeature.COASTLINE)
+ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
+plt.title("Selected Location", fontsize=16, fontweight='bold')
+st.pyplot(fig_map)
 
 # --- Temperature Plot ---
 sns.set_style('whitegrid')
@@ -127,13 +147,4 @@ ax.grid(True, linestyle='--', alpha=0.7)
 plt.tight_layout()
 st.pyplot(fig)
 
-# --- Globe Map ---
-fig_map = plt.figure(figsize=(10, 8))
-ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
-ax_map.set_global()
-ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
-ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
-ax_map.add_feature(cfeature.COASTLINE)
-ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
-plt.title("Selected Location", fontsize=16, fontweight='bold')
-st.pyplot(fig_map)
+
