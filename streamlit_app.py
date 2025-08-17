@@ -64,7 +64,15 @@ def get_seven_day_weather(lat, lon, start_date):
                 "data": weather_data
             })
         return weather_data_list
-
+        
+def extract_max_temps_with_dates(weather_list):
+    filtered_dates = []
+    max_temps = []
+    for entry in weather_list:
+        if entry.get('data') and entry['data'].get('temperature') and entry['data']['temperature'].get('max') is not None:
+            filtered_dates.append(datetime.datetime.strptime(entry['date'], "%Y-%m-%d"))
+            max_temps.append(kelvin_to_fahrenheit(entry['data']['temperature']['max']))
+    return filtered_dates, max_temps
     # current year
     current_year_data = fetch_weather_for_date_range(start_date)
 
@@ -116,10 +124,10 @@ if st.button("Get Weather"):
                     if entry.get('data') and entry['data'].get('temperature') and entry['data']['temperature'].get('max') is not None
                 ]
 
-            current_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(current)]
-            one_year_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(one_year)]
-            ten_years_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(ten_years)]
-            eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
+            dates, current_f = extract_max_temps_with_dates(current)
+            _, one_year_f = extract_max_temps_with_dates(one_year)
+            _, ten_years_f = extract_max_temps_with_dates(ten_years)
+            _, eighty_f = extract_max_temps_with_dates(eighty)
 
             dates = [datetime.datetime.strptime(entry['date'], "%Y-%m-%d") for entry in current]
 
