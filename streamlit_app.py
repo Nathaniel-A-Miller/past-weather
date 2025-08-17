@@ -115,7 +115,7 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
 # --- Globe Map ---
-fig_map = plt.figure(figsize=(8, 6))
+fig_map = plt.figure(figsize=(6, 5))
 ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
 ax_map.set_global()
 ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
