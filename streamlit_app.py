@@ -146,7 +146,7 @@ st.image(buf, width=300)  # adjust width as needed
 # Close the figure to free memory
 plt.close(fig_map)
 
-st.pyplot(fig_map)
+#st.pyplot(fig_map)
 # fig_map = plt.figure(figsize=(6, 5))
 # ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
 # ax_map.set_global()
