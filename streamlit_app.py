@@ -115,13 +115,19 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
 # --- Globe Map ---
-fig_map = plt.figure(figsize=(6, 5))
+fig_map = plt.figure(figsize=(6, 6))  # smaller figure
 ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
-ax_map.set_global()
+
+# Instead of full globe, set a smaller extent around your point
+ax_map.set_global()  # optional: keeps the full globe outline
+ax_map.set_extent([lon-30, lon+30, lat-30, lat+30], crs=ccrs.PlateCarree())
+
 ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
 ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
 ax_map.add_feature(cfeature.COASTLINE)
+
 ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
+
 plt.title("Selected Location", fontsize=16, fontweight='bold')
 st.pyplot(fig_map)
 
