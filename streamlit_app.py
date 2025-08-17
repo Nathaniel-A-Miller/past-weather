@@ -53,7 +53,7 @@ def get_weather_data(lat, lon, date_obj):
         return None
 
 def get_seven_day_weather(lat, lon, start_date):
-    """Fetch 7-day weather data for current year, 1 year ago, 10 years ago, and 1981."""
+    """Fetch 7-day weather data for current year, 1 year ago, 10 years ago, and 1979."""
     def fetch_weather_for_date_range(base_date):
         weather_data_list = []
         for i in range(7):
@@ -75,7 +75,7 @@ def get_seven_day_weather(lat, lon, start_date):
 
     one_year_ago = fetch_weather_for_date_range(safe_replace_year(start_date, start_date.year - 1))
     ten_years_ago = fetch_weather_for_date_range(safe_replace_year(start_date, start_date.year - 10))
-    eighty_year = fetch_weather_for_date_range(safe_replace_year(start_date, 1981))
+    eighty_year = fetch_weather_for_date_range(safe_replace_year(start_date, 1979))
 
     return current_year, one_year_ago, ten_years_ago, eighty_year
 
@@ -135,7 +135,7 @@ ax.set_facecolor('#d9e6f2')
 sns.lineplot(x=dates, y=current_f, marker='o', linewidth=2, label=f'{dates[0].year}', color=palette[0], ax=ax)
 sns.lineplot(x=dates, y=one_year_f, marker='o', linewidth=2, label=f'{dates[0].year-1}', color=palette[1], ax=ax)
 sns.lineplot(x=dates, y=ten_years_f, marker='o', linewidth=2, label=f'{dates[0].year-10}', color=palette[2], ax=ax)
-sns.lineplot(x=dates, y=eighty_f, marker='o', linewidth=2, label='1981', color=palette[3], ax=ax)
+sns.lineplot(x=dates, y=eighty_f, marker='o', linewidth=2, label='1979', color=palette[3], ax=ax)
 ax.set_xlabel('Date', fontsize=14, fontweight='bold')
 ax.set_ylabel('Maximum Temperature (°F)', fontsize=14, fontweight='bold')
 ax.set_title(f'7-Day Maximum Temperature Comparison for {place}', fontsize=16, fontweight='bold')
