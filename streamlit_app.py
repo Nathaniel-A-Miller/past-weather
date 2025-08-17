@@ -115,15 +115,24 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
 # --- Globe Map ---
-fig_map = plt.figure(figsize=(6, 5))
-ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
+fig_map, ax_map = plt.subplots(figsize=(4, 3), subplot_kw={'projection': ccrs.Orthographic(lon, lat)})
 ax_map.set_global()
 ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
 ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
 ax_map.add_feature(cfeature.COASTLINE)
 ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
-plt.title("Selected Location", fontsize=16, fontweight='bold')
+ax_map.set_title("Selected Location", fontsize=12, fontweight='bold')
+
 st.pyplot(fig_map)
+# fig_map = plt.figure(figsize=(6, 5))
+# ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
+# ax_map.set_global()
+# ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
+# ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
+# ax_map.add_feature(cfeature.COASTLINE)
+# ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
+# plt.title("Selected Location", fontsize=16, fontweight='bold')
+# st.pyplot(fig_map)
 
 # --- Temperature Plot ---
 sns.set_style('whitegrid')
