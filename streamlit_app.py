@@ -115,13 +115,36 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
 # --- Globe Map ---
-fig_map, ax_map = plt.subplots(figsize=(4, 3), subplot_kw={'projection': ccrs.Orthographic(lon, lat)})
+import streamlit as st
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import io
+
+# Example coordinates
+lon = lon  # replace with your longitude
+lat = lat   # replace with your latitude
+
+# Create the figure
+fig_map = plt.figure(figsize=(6, 5))
+ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
 ax_map.set_global()
 ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
 ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
 ax_map.add_feature(cfeature.COASTLINE)
 ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
-ax_map.set_title("Selected Location", fontsize=12, fontweight='bold')
+plt.title("Selected Location", fontsize=16, fontweight='bold')
+
+# Save figure to a buffer
+buf = io.BytesIO()
+fig_map.savefig(buf, format="png", bbox_inches='tight')
+buf.seek(0)
+
+# Display image in Streamlit with controlled width
+st.image(buf, width=300)  # adjust width as needed
+
+# Close the figure to free memory
+plt.close(fig_map)
 
 st.pyplot(fig_map)
 # fig_map = plt.figure(figsize=(6, 5))
