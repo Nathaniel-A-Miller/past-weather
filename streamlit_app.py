@@ -121,9 +121,6 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import io
 
-# Example coordinates
-lon = lon  # replace with your longitude
-lat = lat   # replace with your latitude
 
 # Create the figure
 fig_map = plt.figure(figsize=(6, 5))
@@ -146,16 +143,6 @@ st.image(buf, width=300)  # adjust width as needed
 # Close the figure to free memory
 plt.close(fig_map)
 
-#st.pyplot(fig_map)
-# fig_map = plt.figure(figsize=(6, 5))
-# ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
-# ax_map.set_global()
-# ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
-# ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
-# ax_map.add_feature(cfeature.COASTLINE)
-# ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
-# plt.title("Selected Location", fontsize=16, fontweight='bold')
-# st.pyplot(fig_map)
 
 # --- Temperature Plot ---
 sns.set_style('whitegrid')
