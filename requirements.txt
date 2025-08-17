@@ -2,4 +2,4 @@ datetime
 requests
 matplotlib
 cartopy
-seaborne
+seaborn
