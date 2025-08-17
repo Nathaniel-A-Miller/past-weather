@@ -95,10 +95,10 @@ st.title("Past Weather Comparison App 🌦️")
 st.write("""
 This app lets you compare maximum temperatures for a selected location 
 over a 7-day period across different years, including the current year, 
-one year ago, ten years ago, and 1979. The app works by calling the
+one year ago, ten years ago, and 1979. The app works by calling the API of
 OpenWeather, a weather data provider (their data begins in 1979).
 
-Use the inputs below to get started!
+Enter an input below to get started!
 """)
 
 lat, lon, place = get_place_input()
