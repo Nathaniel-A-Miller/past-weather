@@ -44,11 +44,14 @@ def get_place_input():
         st.warning("Place not found. Please enter a valid city and country/state.")
         return None
 
-
 def get_date_input():
     """Prompt user for a date using a calendar widget."""
-    return st.date_input("Select a starting date for weather data (dates after today are forecast)")
-
+    date_obj = st.date_input(
+        "Select a starting date for weather data (dates after today are forecast)",
+        min_value=datetime.date(1979, 1, 1),   # earliest selectable date
+        max_value=datetime.date.today()        # latest selectable date
+    )
+    return date_obj
 
 def get_weather_data(lat, lon, date_obj):
     """Retrieve weather data from OpenWeatherMap API."""
