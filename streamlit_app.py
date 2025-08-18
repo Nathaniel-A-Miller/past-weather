@@ -48,7 +48,7 @@ def get_place_input():
 
 def get_date_input():
     """Prompt user for a date using a calendar widget."""
-    date_obj = st.date_input("Select a starting date for weather data")
+    date_obj = st.date_input("Select a starting date for weather data (dates after today are forecast)")
     return date_obj
 
 def get_weather_data(lat, lon, date_obj):
