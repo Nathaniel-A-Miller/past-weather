@@ -133,7 +133,7 @@ buf = io.BytesIO()
 fig_map.savefig(buf, format="png", bbox_inches='tight')
 buf.seek(0)
 # Display image in Streamlit with controlled width
-st.image(buf, width=350)  # tweak width as needed
+st.image(buf, width=350)
 # Close the figure to free memory
 plt.close(fig_map)
 
