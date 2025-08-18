@@ -48,7 +48,7 @@ def get_date_input():
     """Prompt user for a date using a calendar widget."""
     date_obj = st.date_input(
         "Select a starting date for weather data (dates after today are forecast)",
-        min_value=datetime.date(1979, 1, 1),   # earliest selectable date
+        min_value=datetime.date(1990, 1, 1),   # earliest selectable date
         max_value=datetime.date.today()        # latest selectable date
     )
     return date_obj
