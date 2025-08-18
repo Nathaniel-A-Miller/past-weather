@@ -114,34 +114,57 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
-# --- Globe Map ---
-import streamlit as st
-import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
+ --- Globe Map (Realistic Shaded Relief) ---
 import io
-
-
 # Create the figure
 fig_map = plt.figure(figsize=(6, 5))
 ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
-ax_map.set_global()
-ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
-ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
-ax_map.add_feature(cfeature.COASTLINE)
-ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
-plt.title("Selected Location", fontsize=16, fontweight='bold')
-
+# Add shaded relief background
+ax_map.stock_img()
+# Overlay coastlines and borders for clarity
+ax_map.coastlines(resolution='110m', linewidth=0.8)
+ax_map.add_feature(cfeature.BORDERS, linewidth=0.5)
+# Mark the selected location
+ax_map.plot(lon, lat, 'o', color='red', markersize=8, transform=ccrs.PlateCarree())
+# Title
+plt.title(f"Selected Location: {place}", fontsize=16, fontweight='bold')
 # Save figure to a buffer
 buf = io.BytesIO()
 fig_map.savefig(buf, format="png", bbox_inches='tight')
 buf.seek(0)
-
 # Display image in Streamlit with controlled width
-st.image(buf, width=300)  # adjust width as needed
-
+st.image(buf, width=350)  # tweak width as needed
 # Close the figure to free memory
 plt.close(fig_map)
+
+# --- Globe Map ---
+# import streamlit as st
+# import matplotlib.pyplot as plt
+# import cartopy.crs as ccrs
+# import cartopy.feature as cfeature
+# import io
+
+
+# # Create the figure
+# fig_map = plt.figure(figsize=(6, 5))
+# ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
+# ax_map.set_global()
+# ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
+# ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
+# ax_map.add_feature(cfeature.COASTLINE)
+# ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
+# plt.title("Selected Location", fontsize=16, fontweight='bold')
+
+# # Save figure to a buffer
+# buf = io.BytesIO()
+# fig_map.savefig(buf, format="png", bbox_inches='tight')
+# buf.seek(0)
+
+# # Display image in Streamlit with controlled width
+# st.image(buf, width=300)  # adjust width as needed
+
+# # Close the figure to free memory
+# plt.close(fig_map)
 
 
 # --- Temperature Plot ---
