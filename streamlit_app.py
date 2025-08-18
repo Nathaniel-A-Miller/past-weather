@@ -19,7 +19,7 @@ def get_place_input():
     """Prompt the user until a valid place (city, country or state) is entered."""
     while True:
         place = st.text_input(
-            "Enter city and country (use 2-letter code if possible, e.g., 'Paris, FR' or 'Peoria, US-IL')"
+            "Enter city and country (format 'Paris, France,' 'Peoria, Illinois,' OR 'Paris, FR', 'Peoria, US-IL')"
         ).strip()
         if not place:
             st.warning("Please enter a place in the correct format: City, CountryCode (e.g. 'Paris, FR')")
@@ -45,25 +45,6 @@ def get_place_input():
         else:
             st.error("Place not found. Please enter a valid city and country/state.")
             st.stop()
-
-
-# def get_place_input():
-#     """Prompt the user until a valid place (city, country or state) is entered."""
-#     while True:
-#         place = st.text_input(
-#             "Enter city and country or US state (e.g., 'Paris, France' or 'Peoria, Illinois')"
-#         ).strip()
-#         if not place:
-#             st.warning("Please enter a place in the correct format: City, Country/State")
-#             st.stop()
-#         params = {"q": place, "limit": 1, "appid": openweather_api}
-#         response = requests.get(geo_name_url, params=params)
-#         data = response.json()
-#         if data:
-#             return float(data[0]['lat']), float(data[0]['lon']), place
-#         else:
-#             st.error("Place not found. Please enter a valid city and country/state.")
-#             st.stop()
 
 def get_date_input():
     """Prompt user for a date using a calendar widget."""
@@ -168,32 +149,6 @@ buf.seek(0)
 st.image(buf, width=350)
 # Close the figure to free memory
 plt.close(fig_map)
-
-# --- Globe Map ---
-# import matplotlib.pyplot as plt
-# import io
-
-
-# # Create the figure
-# fig_map = plt.figure(figsize=(6, 5))
-# ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
-# ax_map.set_global()
-# ax_map.add_feature(cfeature.LAND, facecolor='lightgreen')
-# ax_map.add_feature(cfeature.OCEAN, facecolor='lightblue')
-# ax_map.add_feature(cfeature.COASTLINE)
-# ax_map.plot(lon, lat, 'o', color='red', transform=ccrs.PlateCarree())
-# plt.title("Selected Location", fontsize=16, fontweight='bold')
-
-# # Save figure to a buffer
-# buf = io.BytesIO()
-# fig_map.savefig(buf, format="png", bbox_inches='tight')
-# buf.seek(0)
-
-# # Display image in Streamlit with controlled width
-# st.image(buf, width=300)  # adjust width as needed
-
-# # Close the figure to free memory
-# plt.close(fig_map)
 
 
 # --- Temperature Plot ---
