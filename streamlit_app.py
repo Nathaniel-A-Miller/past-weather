@@ -7,6 +7,7 @@ import matplotlib.dates as mdates
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import seaborn as sns
+import io
 
 # --- Variables ---
 openweather_api = st.secrets["openweather"]["api_key"]
@@ -18,11 +19,24 @@ def get_place_input():
     """Prompt the user until a valid place (city, country or state) is entered."""
     while True:
         place = st.text_input(
-            "Enter city and country or US state (e.g., 'Paris, France' or 'Peoria, Illinois')"
+            "Enter city and country (use 2-letter code if possible, e.g., 'Paris, FR' or 'Peoria, US-IL')"
         ).strip()
         if not place:
-            st.warning("Please enter a place in the correct format: City, Country/State")
+            st.warning("Please enter a place in the correct format: City, CountryCode (e.g. 'Paris, FR')")
             st.stop()
+
+        # Try to be smart about country input
+        parts = [p.strip() for p in place.split(",")]
+        if len(parts) == 2 and len(parts[1]) > 2:
+            # If they wrote "France", convert to "FR"
+            country_lookup = {
+                "france": "FR", "united states": "US", "usa": "US", "canada": "CA",
+                "spain": "ES", "germany": "DE", "italy": "IT"
+                # expand as needed
+            }
+            country = country_lookup.get(parts[1].lower(), parts[1])
+            place = f"{parts[0]},{country}"
+
         params = {"q": place, "limit": 1, "appid": openweather_api}
         response = requests.get(geo_name_url, params=params)
         data = response.json()
@@ -31,6 +45,25 @@ def get_place_input():
         else:
             st.error("Place not found. Please enter a valid city and country/state.")
             st.stop()
+
+
+# def get_place_input():
+#     """Prompt the user until a valid place (city, country or state) is entered."""
+#     while True:
+#         place = st.text_input(
+#             "Enter city and country or US state (e.g., 'Paris, France' or 'Peoria, Illinois')"
+#         ).strip()
+#         if not place:
+#             st.warning("Please enter a place in the correct format: City, Country/State")
+#             st.stop()
+#         params = {"q": place, "limit": 1, "appid": openweather_api}
+#         response = requests.get(geo_name_url, params=params)
+#         data = response.json()
+#         if data:
+#             return float(data[0]['lat']), float(data[0]['lon']), place
+#         else:
+#             st.error("Place not found. Please enter a valid city and country/state.")
+#             st.stop()
 
 def get_date_input():
     """Prompt user for a date using a calendar widget."""
@@ -115,7 +148,6 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
 # --- Globe Map (Realistic Shaded Relief) ---
-import io
 # Create the figure
 fig_map = plt.figure(figsize=(6, 5))
 ax_map = fig_map.add_subplot(1, 1, 1, projection=ccrs.Orthographic(lon, lat))
@@ -138,10 +170,7 @@ st.image(buf, width=350)
 plt.close(fig_map)
 
 # --- Globe Map ---
-# import streamlit as st
 # import matplotlib.pyplot as plt
-# import cartopy.crs as ccrs
-# import cartopy.feature as cfeature
 # import io
 
 
