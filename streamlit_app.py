@@ -114,7 +114,7 @@ eighty_f = [kelvin_to_fahrenheit(t) for t in extract_max_temps(eighty)]
 
 dates = [datetime.datetime.strptime(d['date'], "%Y-%m-%d") for d in current]
 
- --- Globe Map (Realistic Shaded Relief) ---
+# --- Globe Map (Realistic Shaded Relief) ---
 import io
 # Create the figure
 fig_map = plt.figure(figsize=(6, 5))
